@@ -1,4 +1,4 @@
-﻿import math
+import math
 import random
 
 '''Función que retorna el diccionario con la frecuencia de los datos'''
@@ -238,3 +238,42 @@ def construir_arbol_decision(nombre_archivo, target):
     datos.remove(atributos)
     #Recibe una lista de listas, los atributos, y el atributo que vamos a querer predecir  
     return crear_arbol(datos, atributos, target)
+
+'''
+B_arboles = 4
+
+if B_arboles > 1 and B_arboles <= 4:
+    cantidad_atributos = 15
+    
+if B_arboles > 4 and B_arboles <= 8:
+    cantidad_atributos = 10
+    
+if B_arboles > 8:
+    cantidad_atributos = 5
+    #my_randoms = [random.randrange(1,31,1) for _ in range(cantidad_atributos)]
+    
+####
+
+random_general=[]
+for _ in range (B_arboles):
+    my_randoms = [random.randint(1,31) for _ in range(cantidad_atributos)]
+    arbol_set= dataframe.iloc[:,my_randoms]
+    arbol_set.to_csv('arbolSet.csv', sep=',')
+    #llamar a construir arbol de decision 
+    #target = ''
+    #arbol = construir_arbol_decision('arbolSet.csv',target)
+    random_general += [my_randoms]
+'''
+    
+    
+#print(random_general)
+#sub_set= dataframe.iloc[:,[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19]]
+#set+=dataframe[ dataframe.columns[1]]
+#sub_set.to_csv('subSet.csv', sep=',')
+
+
+#print("Versión del Árbol en llaves\n\n", arbol)
+
+#result = prediccion_arbol_decision(arbol, {'Dormir':'Si'})
+
+#print("Prediccion del resultado es: ",result)
