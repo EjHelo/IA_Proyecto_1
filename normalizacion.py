@@ -54,6 +54,35 @@ def normalizar_rf(cantidad):
     random_atributos += [atributos]
   return random_atributos, vector_general
 
+def normalizar_rn():
+  #leemos el CSV
+  dataframe = pd.read_csv("wisc_bc_data.csv",parse_dates=True)
+
+  vector_atributos = ['radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 
+                    'symmetry_mean', 'fractal_dimension_mean', 'radius_se', 'texture_se', 'perimeter_se', 'area_se','smoothness_se', 'compactness_se', 'concavity_se',
+                    'concave points_se', 'symmetry_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 
+                    'compactness_worst', 'concavity_worst', 'concave points_worst','symmetry_worst', 'fractal_dimension_worst']
+
+  #Hacemos dummie de la variable diagnosis
+  dummies_diagnosis = pd.get_dummies(dataframe.diagnosis)
+
+  #Adjuntamos los dummies y borramos la anterior
+  dataframe_temporal = pd.concat([dataframe, dummies_diagnosis], axis='columns')
+  dataframe_normalizado = dataframe_temporal.drop(['diagnosis'], axis='columns')
+
+  #Hacemos normalizacion Z-score
+  for var in range (len(vector_atributos)):
+    old_var = vector_atributos[var]
+    new_var = 'z_'+ old_var
+    dataframe_normalizado[new_var] = round( (dataframe[old_var] - dataframe[old_var].mean()) / dataframe[old_var].std(ddof=0) )
+  #eliminamos las variables anteriores
+  dataframe_normalizado = dataframe_normalizado.drop(vector_atributos, axis='columns')
+
+  #print(dataframe_normalizado.head())
+  return dataframe_normalizado 
+  
+
+
 def normalizar_dataframe(dataframe, vector_atributos):
   #Hacemos dummie de la variable diagnosis
   dummies_diagnosis = pd.get_dummies(dataframe.diagnosis)
@@ -62,7 +91,7 @@ def normalizar_dataframe(dataframe, vector_atributos):
   dataframe_temporal = pd.concat([dataframe, dummies_diagnosis], axis='columns')
   dataframe_normalizado = dataframe_temporal.drop(['diagnosis'], axis='columns')
 
-  #Hacemos normalización Z-score
+  #Hacemos normalizacion Z-score
   for var in range (len(vector_atributos)):
     old_var = vector_atributos[var]
     new_var = 'z_'+ old_var
@@ -79,6 +108,8 @@ def normalizar_dataframe(dataframe, vector_atributos):
     dataframe_normalizado.replace({ ('z_'+vector_atributos[x]): diccionario }, inplace = True)
 
   return dataframe_normalizado
+
+
 
 
 
