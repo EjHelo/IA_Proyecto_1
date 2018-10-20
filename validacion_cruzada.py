@@ -2,7 +2,7 @@ import numpy
 import copy
 
 import arbol_decision
-import red_neuronal
+#import redes_neuronales
 
 def obtener_error_rate(resultados, resultados_reales):
     errores = 0
@@ -23,7 +23,7 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
 
     if modelo.rn == True:
         print("Realizando redes neuronales")
-        red_neuronal.red_neuronal(4, training_set, vector_random)
+
   
     elif modelo.rf == True:
     
@@ -73,14 +73,17 @@ def particion_k(examples, i, validation_k):
 
 #Retorna el training y validation set para un hold out cv
 def particion_h(examples, porcentaje_prueba):
-    validation_set = []
-    training_set = []
-        
+
     tamano_porcion = (len(examples) * porcentaje_prueba) // 100
-
-    validation_set += examples[0:tamano_porcion] #Validacion set
-
-    training_set += examples[tamano_porcion:len(examples)] #Todo lo que sobra va para el training
+    validation_set = numpy.concatenate( [ ], examples.iloc(:tamano_porcion,:))
+    training_set = numpy.concatenate( [ ], examples.iloc(tamano_porcion:,:))
+    data = examples.iloc[:tamano_porcion,:]
+    data2 = examples.iloc[tamano_porcion:,:]
+    print(data)
+    print(data2)
+    #validation_set += examples[0:tamano_porcion] #Validacion set
+    
+    #training_set += examples[tamano_porcion:len(examples)] #Todo lo que sobra va para el training
 
     return training_set, validation_set
 
