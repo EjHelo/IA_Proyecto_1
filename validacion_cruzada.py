@@ -26,20 +26,11 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
 
   
     elif modelo.rf == True:
-        print("Realizando arbol de decision")
     
         #Obtenemos los atributos y el target, q van a variar dependiendo del tipo de corrida
-        vector_atributos = ['id', 'B', 'M', 'radius_mean', 'texture_mean', 'perimeter_mean', 'area_mean', 'smoothness_mean', 'compactness_mean', 'concavity_mean', 'concave points_mean', 
-                    'symmetry_mean', 'fractal_dimension_mean', 'radius_se', 'texture_se', 'perimeter_se', 'area_se','smoothness_se', 'compactness_se', 'concavity_se',
-                    'concave points_se', 'symmetry_se', 'fractal_dimension_se', 'radius_worst', 'texture_worst', 'perimeter_worst', 'area_worst', 'smoothness_worst', 
-                    'compactness_worst', 'concavity_worst', 'concave points_worst','symmetry_worst', 'fractal_dimension_worst']
-
-
-        atributos = ['id', 'b', 'm']
-        for x in range( len(vector_random) ):
-            numero = vector_random[x]
-            atributos += [ vector_atributos[numero] ]
-        target = atributos[1]
+        atributos = vector_random
+        target = 'B'
+        #print('atributos', atributos)
 
         #Generamos el arbol
         arbol = arbol_decision.crear_arbol(training_set, atributos, target)
@@ -100,7 +91,7 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
 
     #-------------------------------------------------------
     #Dejamos un 70% para fold, y un 30% para test set
-    k_fold_examples, test_set = particion_h(examples, porcentaje_pruebas) 
+    k_fold_examples, test_set = particion_h(examples, porcentaje_pruebas)
     #Hacemos copias de los valores
     k_validaciones_original = k_validaciones
     k_fold_examples_original = numpy.copy(k_fold_examples)

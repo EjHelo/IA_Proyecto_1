@@ -16,8 +16,6 @@ def normalizar_rf(cantidad):
 
   dataframe_normalizado = normalizar_dataframe(dataframe, vector_atributos)
 
-  muestras = np.transpose(dataframe_normalizado) #generamos variabe muestra a trabajar
-
   #vector en donde estan todas las salidas_temporales de los arboles
   vector_general = [] 
 
@@ -31,36 +29,30 @@ def normalizar_rf(cantidad):
   if cantidad_arbol > 8:
       cantidad_atributos = 5
       
-      
-  random_general=[]
+  random_atributos = []
   for _ in range(cantidad_arbol):
     #Hacemos el random del arbol
     vector_random = [random.randint(3,31) for _ in range(cantidad_atributos)]
-    print('VecRan',vector_random)
-    #Guardamos todos los vectores random generados
-    random_general += [vector_random]
+    vector_random = [1,2] + vector_random
     
     #---------------------------------------
-    arbol_set= dataframe.iloc[:,vector_random]
+    arbol_set= dataframe_normalizado.iloc[:,vector_random]
     arbol_set.to_csv('arbolSet.csv', sep=',')
+
+    archivo = open('arbolSet.csv')
+    datos = [[]]
+
+    for linea in archivo:
+      linea = linea.strip("\r\n")
+      datos.append(linea.split(','))
+    datos.remove([])
+    atributos = datos[0]
+    datos.remove(atributos)
     #-------------------------------------
-      
-    #Ingresamos los tres generales
-    identificador = (muestras[0])[np.newaxis, :].T
-    benigno = (muestras[1])[np.newaxis, :].T
-    maligno = (muestras[2])[np.newaxis, :].T
-    salida_temporal = np.concatenate((identificador, benigno, maligno), axis = 1)
 
-    for var in range (len(vector_random)):
-      new_var = (muestras[ (vector_random[var]) ])[np.newaxis, :].T
-      salida = np.concatenate((salida_temporal, new_var ), axis = 1)
-      salida_temporal = salida
-
-    vector_general += [ (salida_temporal.tolist()) ]
-  print('vecGen', len(vector_general))
-  return random_general, vector_general
-
-
+    vector_general += [ (datos) ]
+    random_atributos += [atributos]
+  return random_atributos, vector_general
 
 def normalizar_dataframe(dataframe, vector_atributos):
   #Hacemos dummie de la variable diagnosis
