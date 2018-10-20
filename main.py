@@ -106,7 +106,7 @@ if options.kf == True:
         print("final_accuracy_T",100 - final_error_t)
         print("final_accuracy_V",100 - final_error_v)
         respuestas = numpy.asarray(respuestas)
-
+        print(respuestas)
         archivo = numpy.concatenate((archivo,respuestas[numpy.newaxis, :].T), axis=1)
         #--------------------------------
         archivo = archivo.tolist()
