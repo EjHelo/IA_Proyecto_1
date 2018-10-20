@@ -40,15 +40,15 @@ parser.add_option("", "--porcentaje-prueba", dest="porcentaje_prueba", default=0
 #Se les da a los datos el formato necesario dependiendo del tipo de modelo solicitado
 if options.rn:
   datos_normalizados = normalizacion.normalizar_rn()
-  
+
   es_entrenamiento = []
   porcentaje_pruebas = int(options.porcentaje_prueba)
-  porcion_tamano = (len(datos) * porcentaje_pruebas) // 100
+  porcion_tamano = (len(datos_normalizados) * porcentaje_pruebas) // 100
   es_entrenamiento += ['NO'] * porcion_tamano
-  es_entrenamiento += ['SI'] * (len(datos) - porcion_tamano)
+  es_entrenamiento += ['SI'] * (len(datos_normalizados) - porcion_tamano)
   es_entrenamiento = numpy.asarray(es_entrenamiento)
 
-  archivo = numpy.concatenate((datos,es_entrenamiento[numpy.newaxis, :].T), axis=1)
+  archivo = numpy.concatenate((datos_normalizados,es_entrenamiento[numpy.newaxis, :].T), axis=1)
  
 elif options.rf:
   lista_random, lista_datos_normalizados = normalizacion.normalizar_rf(options.cantidad_arbol)
@@ -76,7 +76,7 @@ if options.kf == True:
       validation_k = int(options.cantidad_k)
       cantidad_arboles = int(options.cantidad_arbol)
       
-
+  
       if options.rf:
         #se crean los arboles
         for x in range(cantidad_arboles):
@@ -100,7 +100,7 @@ if options.kf == True:
         
       else:
         #Se aplica cross-validation
-        respuestas, fold_error_t, fold_error_v, final_error_t, final_error_v = validacion_cruzada.k_fold_cross_validation(validation_k, porcentaje_pruebas, datos_normalizados, [], options)
+        respuestas, fold_error_t, fold_error_v, final_error_t, final_error_v = validacion_cruzada.k_fold_cross_validation(validation_k, porcentaje_pruebas, datos_normalizados, datos_normalizados.keys(), options)
         print("fold_accuracy_T", 100 - fold_error_t)
         print("fold_accuracy_V", 100 - fold_error_v)
         print("final_accuracy_T",100 - final_error_t)

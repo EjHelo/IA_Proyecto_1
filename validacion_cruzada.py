@@ -2,7 +2,7 @@ import numpy
 import copy
 
 import arbol_decision
-#import redes_neuronales
+import red_neuronal
 
 def obtener_error_rate(resultados, resultados_reales):
     errores = 0
@@ -23,7 +23,7 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
 
     if modelo.rn == True:
         print("Realizando redes neuronales")
-
+        red_neuronal.red_neuronal(4, training_set, vector_random)
   
     elif modelo.rf == True:
     
