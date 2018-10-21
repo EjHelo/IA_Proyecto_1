@@ -1,8 +1,8 @@
 # IA_Proyecto_1
 Proyecto #1 - Inteligencia Artificial
-| Símbolo               	| Explicación                                                                                                   	| Rango                                                                                    	|
-|------------------------	|---------------------------------------------------------------------------------------------------------------	|-----------------------------------------------------------------------------------------------------	|
-                                                                           	|
+
+| Símbolo               	| Explicación                | Rango                                            |
+|--------------	|--------------------------------------------------------------	|----------------------------------------------------	|
 | - -porcentaje-pruebas  	| Es el porcentaje de pruebas que se guardará para la prueba final                                              	| Números mayor a 0 y menor a 100                                                                     	|                               
 | - -prefijo             	| Será el nombre que se le pondrá al archivo csv generado                                                       	| Cualquier nombre                                                                                    	|
 | - -kfold               	| Si se escribe el programa se probara con kfold crossvalidation                                                	| True o False                                                                                        	|
