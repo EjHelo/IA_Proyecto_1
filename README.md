@@ -1,4 +1,9 @@
 # IA_Proyecto_1
+
+Instituto tecnológico de Costa Rica
+
+Ingeniería en Computación
+
 Proyecto #1 - Inteligencia Artificial
 
 # Manual de uso
