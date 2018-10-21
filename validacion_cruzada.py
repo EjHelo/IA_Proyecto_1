@@ -24,7 +24,7 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
     if modelo.rn == True:
         print("Realizando redes neuronales")
         
-        result_training, result_validation = red_neuronal.crear_red_neuronal(training_set, validation_set, int(modelo.nc),int(modelo.uc),0)
+        result_training, result_validation = red_neuronal.crear_red_neuronal(training_set, validation_set, int(modelo.nc),int(modelo.uc),0, modelo.fa)
 
   
     elif modelo.rf == True:
@@ -171,11 +171,11 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
     if modelo.rn:
         final_error_t = result_training[0]
         final_error_v = result_validation[0]
-        result_training, result_validation = red_neuronal.crear_red_neuronal(k_fold_examples, test_set, int(modelo.nc), int(modelo.uc),1)
+
+        
+        result_training, result_validation = red_neuronal.crear_red_neuronal(k_fold_examples, test_set, int(modelo.nc), int(modelo.uc),1, modelo.fa)
         respuestas_obtenidas = numpy.concatenate([result_validation, result_training])
-        print("LEN respuestas obtenidas - kfol")
-        print(len(respuestas_obtenidas))
-            
+        
     #Si no, hay que calcularlo 
     else:
         final_error_t = (obtener_error_rate(result_training, obtener_resultados_reales(k_fold_examples_original) )/ len(k_fold_examples_original)) * 100
