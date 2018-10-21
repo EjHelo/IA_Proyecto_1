@@ -14,7 +14,7 @@ def obtener_error_rate(resultados, resultados_reales):
 
 #Recibe un set de entrenamiento y retorna una lista con las respuestas esperadas por cada ejemplo
 def obtener_resultados_reales(matrix):
-    return [row[len(row)-1] for row in matrix]
+    return [row[1] for row in matrix]
 
 #Recibe un training set y un validation set. Busca el tipo de learner que se va a usar en options, asi como otros parametros necesarios
 def obtener_resultados(training_set, validation_set, vector_random, modelo):
@@ -107,7 +107,7 @@ def particion_h(examples, porcentaje_prueba):
 
     validation_set = []
     training_set = []
-        
+
     tamano_porcion = (len(examples) * porcentaje_prueba) // 100
 
     validation_set += examples[0:tamano_porcion] #Validacion set
@@ -162,6 +162,7 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
         #Si no, hay que calcularlo   
         else:
             fold_error_t += obtener_error_rate(result_training, obtener_resultados_reales(training_set_original) )
+
             fold_error_v += obtener_error_rate(result_validation, obtener_resultados_reales(validation_set_original) )
             
     #-------------Prueba final con test set--------------------------------------------
@@ -174,12 +175,15 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
         
         result_training, result_validation = red_neuronal.crear_red_neuronal(k_fold_examples, test_set, int(modelo.nc), int(modelo.uc),1, modelo.fa)
         respuestas_obtenidas = numpy.concatenate([result_validation, result_training])
-        
+        return respuestas_obtenidas,(fold_error_t/len(k_fold_examples))*100, (fold_error_v/len(k_fold_examples))*100, final_error_t, final_error_v
     #Si no, hay que calcularlo 
     else:
         final_error_t = (obtener_error_rate(result_training, obtener_resultados_reales(k_fold_examples_original) )/ len(k_fold_examples_original)) * 100
+        
         final_error_v = (obtener_error_rate(result_validation, obtener_resultados_reales(test_set_original) ) / len(test_set_original)) * 100
+        
+        return respuestas_obtenidas,(fold_error_t/k_validaciones), (fold_error_v/k_validaciones), final_error_t, final_error_v
     #-------------------------------------------------------------------------------
 
-    return respuestas_obtenidas,(fold_error_t/len(k_fold_examples))*100, (fold_error_v/len(k_fold_examples))*100, final_error_t, final_error_v
+    
 

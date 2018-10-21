@@ -80,7 +80,8 @@ if options.kf == True:
       if options.rf:
         #se crean los arboles
         for x in range(cantidad_arboles):
-          respuestas, fold_error_t, fold_error_v, final_error_t, final_error_v = validacion_cruzada.k_fold_cross_validation(validation_k, porcentaje_pruebas, lista_datos_normalizados[x], lista_random[x], options)
+  
+          respuestas, fold_error_t, fold_error_v, final_error_t, final_error_v = validacion_cruzada.k_fold_cross_validation(validation_k, int(options.porcentaje_prueba), lista_datos_normalizados[x], lista_random[x], options)
           print("Información del Árbol número: ", x)
           print("fold_accuracy_T", 100 - fold_error_t)
           print("fold_accuracy_V", 100 - fold_error_v)
