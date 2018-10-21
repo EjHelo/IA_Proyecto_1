@@ -1,6 +1,6 @@
-# IA_Proyecto_1
+# IA Proyecto 1
 
-Instituto tecnológico de Costa Rica
+Tecnológico de Costa Rica
 
 Ingeniería en Computación
 
