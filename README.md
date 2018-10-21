@@ -34,6 +34,13 @@ Para instalar Tensorflow
 
     pip install Tensorflow
 
+## Uso del sistema
+Después de haber instalado todas las bibliotecas necesarias para el proyecto, se debe clonar el repositorio en la computadora y abrir una termial o línea de comandos para encontrar la ubicación de los archivos y poder ejecutarlos. 
+
+Para ejecutar los algoritmos de clasificación se debe ingresar en la línea de comandos **python main.py** seguida de diferentes banderas. 
+
+Este programa recibe varias banderas, las cuales tienen un nombre, una descripción y un rango permitido para poder ejecutrase. Estas banderas son:
+
 | Símbolo               	| Explicación                | Rango                                            |
 |-------------------------	|--------------------------------------------------------------	|----------------------------------------------------	|
 | --arbol               	| Activa el árbol de decisión                                                                                   	| True o False                                                                                        	|
