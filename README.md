@@ -17,13 +17,16 @@ Para la ejecución del sistema, es necesaria la herramienta "pip" que es un sist
 
 ## Comandos:
 
-Para instalar las bibliotecas **(Numpy, Scikit-learn, Pandas, Pytest)** se llama a un mismo comando con la diferencia en el nombre de las bibliotecas.
+Para instalar las bibliotecas **(Numpy, Scikit-learn, Pandas, Pytest)** se llama a un mismo comando con la diferencia en el nombre de las bibliotecas
+
     pip install nombre_bibloteca
 
- Para instalar Keras:
+ Para instalar Keras
+ 
     pip install Keras
 
 Para instalar Tensorflow
+
     pip install Tensorflow
 
 | Símbolo               	| Explicación                | Rango                                            |
