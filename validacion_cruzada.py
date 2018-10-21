@@ -178,9 +178,13 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
         return respuestas_obtenidas,(fold_error_t/len(k_fold_examples))*100, (fold_error_v/len(k_fold_examples))*100, final_error_t, final_error_v
     #Si no, hay que calcularlo 
     else:
+        
+        
         final_error_t = (obtener_error_rate(result_training, obtener_resultados_reales(k_fold_examples_original) )/ len(k_fold_examples_original)) * 100
         
         final_error_v = (obtener_error_rate(result_validation, obtener_resultados_reales(test_set_original) ) / len(test_set_original)) * 100
+
+        print("Training final T")
         
         return respuestas_obtenidas,(fold_error_t/k_validaciones), (fold_error_v/k_validaciones), final_error_t, final_error_v
     #-------------------------------------------------------------------------------
