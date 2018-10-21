@@ -3,7 +3,7 @@
 
 import normalizacion
 import validacion_cruzada
-
+import pandas as pd
 import numpy
 from optparse import OptionParser
 #from sklearn.preprocessing import LabelEncoder
@@ -21,9 +21,9 @@ parser.add_option("", "--umbral-poda", dest="up", default=0, help="Umbral poda")
 
 parser.add_option("", "--red-neuronal", action="store_true", dest="rn", default=False, help="Red neuronal")
 
-parser.add_option("", "--numero-capas", dest="nc", default=0, help="Número de capas")
+parser.add_option("", "--numero-capas", dest="nc", default="30", help="Número de capas")
 
-parser.add_option("", "--unidades-por-capa", dest="uc", default=0,help="Unidades por capa")
+parser.add_option("", "--unidades-por-capa", dest="uc", default="10",help="Unidades por capa")
 
 parser.add_option("", "--funcion-activacion", dest="fa", default=0,help="Función de activación")
 
@@ -86,8 +86,8 @@ if options.kf == True:
           print("fold_accuracy_V", 100 - fold_error_v)
           print("final_accuracy_T",100 - final_error_t)
           print("final_accuracy_V",100 - final_error_v)
-          respuestas = numpy.asarray(respuestas)
-
+          
+          print (len(respuestas))
           vector_archivos[x] = numpy.concatenate((archivo,respuestas[numpy.newaxis, :].T), axis=1)
           #-------------------------------------
           vector_archivos[x] = (vector_archivos[x]).tolist()
@@ -107,14 +107,14 @@ if options.kf == True:
         print("final_accuracy_V",100 - final_error_v)
         respuestas = numpy.asarray(respuestas)
 
-        archivo = numpy.concatenate((archivo,respuestas[numpy.newaxis, :].T), axis=1)
-        #--------------------------------
-        archivo = archivo.tolist()
-        archivo_final = []
-        archivo_final.append(atributos) 
-        archivo_final+= archivo
+        df = pd.read_csv("prueba.csv")
+        df['predicciones'] = 'predicciones'
 
-        nombre_archivo = options.prefijo + ".csv"
+        for i in df.index:
+          df.at[i, 'predicciones'] = respuestas[i]
+
+        df.to_csv("solucion.csv")
+        
         #createCSV(nombre_archivo,archivo_final)
 
 

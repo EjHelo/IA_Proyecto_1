@@ -1,6 +1,6 @@
 import numpy
 import copy
-
+import pandas as pd
 import arbol_decision
 import red_neuronal
 
@@ -23,7 +23,9 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
 
     if modelo.rn == True:
         print("Realizando redes neuronales")
-        red_neuronal.red_neuronal(4, training_set, vector_random)
+        
+        result_training, result_validation = red_neuronal.crear_red_neuronal(training_set, validation_set, int(modelo.nc),int(modelo.uc),0)
+
   
     elif modelo.rf == True:
     
@@ -59,6 +61,35 @@ def obtener_resultados(training_set, validation_set, vector_random, modelo):
     return result_training, result_validation
 
 #Retorna el training y validation set para un kfold cv
+def particion_k_rn(examples, i, validation_k):
+    training_set = []
+    validation_set = []
+        
+    tamano_porcion = len(examples)//validation_k
+
+    validation_set = examples.iloc[i*tamano_porcion: (i*tamano_porcion+tamano_porcion ),:]
+    training_particion_init = examples.iloc[0:i*tamano_porcion, :]
+    training_particion_resto = examples.iloc[i*tamano_porcion+tamano_porcion:len(examples), :]
+    training_particion_unido = [training_particion_init, training_particion_resto]
+    training_set = pd.concat(training_particion_unido)
+
+    return training_set, validation_set
+
+def particion_h_rn(examples, porcentaje_prueba):
+
+    tamano_porcion = (len(examples) * porcentaje_prueba) // 100
+    validation_set = examples.iloc[:tamano_porcion,:]
+    training_set =  examples.iloc[tamano_porcion:,:]
+    data = examples.iloc[:tamano_porcion,:]
+    data2 = examples.iloc[tamano_porcion:,:]
+
+    #validation_set += examples[0:tamano_porcion] #Validacion set
+    
+    #training_set += examples[tamano_porcion:len(examples)] #Todo lo que sobra va para el training
+
+    return training_set, validation_set
+
+#Retorna el training y validation set para un kfold cv
 def particion_k(examples, i, validation_k):
     training_set = []
     validation_set = []
@@ -68,11 +99,12 @@ def particion_k(examples, i, validation_k):
     validation_set += examples[i*tamano_porcion:i*tamano_porcion+tamano_porcion] #Validacion set
     training_set += examples[i*tamano_porcion+tamano_porcion:len(examples)] #Todo lo que sobra va para el training
 
-    return training_set, validation_set 
+    return training_set, validation_set  
 
 
 #Retorna el training y validation set para un hold out cv
 def particion_h(examples, porcentaje_prueba):
+
     validation_set = []
     training_set = []
         
@@ -91,7 +123,11 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
 
     #-------------------------------------------------------
     #Dejamos un 70% para fold, y un 30% para test set
-    k_fold_examples, test_set = particion_h(examples, porcentaje_pruebas)
+    if modelo.rn:
+        k_fold_examples, test_set = particion_h_rn(examples, porcentaje_pruebas)
+    else:
+        k_fold_examples, test_set = particion_h(examples, porcentaje_pruebas)
+    
     #Hacemos copias de los valores
     k_validaciones_original = k_validaciones
     k_fold_examples_original = numpy.copy(k_fold_examples)
@@ -103,18 +139,25 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
 
     for i in range(k_validaciones):
         #Entrenamiento y validacion con particion K
-        training_set, validation_set = particion_k(k_fold_examples, i, k_validaciones_original)
+        if modelo.rn:
+            training_set, validation_set = particion_k_rn(k_fold_examples, i, k_validaciones_original)
+        else:
+            training_set, validation_set = particion_k(k_fold_examples, i, k_validaciones_original)
                 
         #Hacemos copias
         training_set_original = numpy.copy(training_set)
         validation_set_original = numpy.copy(validation_set)
+
            
         result_training, result_validation = obtener_resultados(training_set, validation_set, vector_random, modelo)
 
         #Si es una red (rn) entonces ya en result_training y result_validation tengo el error rate
         if modelo.rn:
-            fold_error_t += result_training
-            fold_error_v += result_validation
+            #0 + [1,1]
+            print(" result ")
+            print(result_training)
+            fold_error_t += result_training[0]
+            fold_error_v += result_validation[0]
 
         #Si no, hay que calcularlo   
         else:
@@ -126,8 +169,12 @@ def k_fold_cross_validation(k_validaciones, porcentaje_pruebas, examples, vector
     respuestas_obtenidas = result_validation + result_training
     #Si es una red (rn) entonces ya en result_training y result_validation tengo el error rate
     if modelo.rn:
-        final_error_t = result_training
-        final_error_v = result_validation
+        final_error_t = result_training[0]
+        final_error_v = result_validation[0]
+        result_training, result_validation = red_neuronal.crear_red_neuronal(k_fold_examples, test_set, int(modelo.nc), int(modelo.uc),1)
+        respuestas_obtenidas = numpy.concatenate([result_validation, result_training])
+        print("LEN respuestas obtenidas - kfol")
+        print(len(respuestas_obtenidas))
             
     #Si no, hay que calcularlo 
     else:
