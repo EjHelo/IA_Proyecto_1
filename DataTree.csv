@@ -1,0 +1,11 @@
+VisitaFamiliar,Clima,Deporte,Futbol,Dinero,Dormir
+Si,Soleado,No,No,Si,Si
+No,Soleado,Si,Si,No,No
+No,Ventoso,Si,Si,No,No
+Si,Lluvioso,No,No,Si,Si
+No,Soleado,Si,MM,Si,No
+No,Lluvioso,Si,No,No,Si
+No,Ventoso,No,No,Si,No
+No,Ventoso,Si,MM,No,Si
+Si,Soleado,Si,No,No,Si
+No,Soleado,Si,No,Si,Si
