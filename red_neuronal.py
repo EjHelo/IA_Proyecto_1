@@ -7,19 +7,20 @@ from keras.layers import Dense
 import pandas as pd
 
 
-def crear_red_neuronal(training_set, validation_set, capas, unidades_por_capa, pred=0):
+def crear_red_neuronal(training_set, validation_set, capas, unidades_por_capa, pred, funcion_activacion):
 
     training_set_x = training_set.drop(columns=['B','M'])
     training_set_y = training_set.iloc[:,[1,2]]
     validation_set_x = validation_set.drop(columns=['B','M'])
     validation_set_y = validation_set.iloc[:,[1,2]]
+
     
     model = Sequential()
-    model.add(Dense(unidades_por_capa, input_shape=(31,), activation = "sigmoid"))
+    model.add(Dense(unidades_por_capa, input_shape=(31,), activation = funcion_activacion))
     for i in range (0,capas):
-        model.add(Dense(unidades_por_capa, input_shape=(31,), activation = "sigmoid"))
+        model.add(Dense(unidades_por_capa, input_shape=(31,), activation = funcion_activacion))
         
-    model.add(Dense(2, activation = "sigmoid"))
+    model.add(Dense(2, activation = funcion_activacion))
     
     tbCallBack = keras.callbacks.TensorBoard(log_dir='/tmp/keras_logs',write_graph = True)
 
