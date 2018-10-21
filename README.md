@@ -53,3 +53,13 @@ Este programa recibe varias banderas, las cuales tienen un nombre, una descripci
 | --unidades-por-capa   	| Selecciona el número de unidad por capa en la red neuronal                                              	| Número entero positivo                                                                              	|
 | --funcion-activacion  	| Selecciona la función de activación en la red neuronal                                                  	| softmax, softplus, relu, sigmoid 	|
 | --umbral-poda         	| Selecciona el umbral con el que se podara el árbol .                                                    	| Número entre 0 y 1.                                                                                 	|
+
+
+
+## Pruebas Unitarias
+
+Para ejecutar las pruebas unitarias se debe ir a la línea de comandos o terminal y ejecutar el comando
+
+    python -m pytest
+    
+Muestras si las pruebas son válidas o no
