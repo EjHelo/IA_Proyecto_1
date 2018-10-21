@@ -88,15 +88,14 @@ if options.kf == True:
           print("final_accuracy_T",100 - final_error_t)
           print("final_accuracy_V",100 - final_error_v)
           
-          print (len(respuestas))
-          vector_archivos[x] = numpy.concatenate((archivo,respuestas[numpy.newaxis, :].T), axis=1)
-          #-------------------------------------
-          vector_archivos[x] = (vector_archivos[x]).tolist()
-          archivo_final = []
-          archivo_final.append(atributos) 
-          archivo_final += vector_archivos[x]
+          df = pd.read_csv("prueba.csv")
+          df['predicciones'] = 'predicciones'
 
-          nombre_archivo = options.prefijo + ".csv"
+          for i in df.index:
+            df.at[i, 'predicciones'] = respuestas[i]
+
+          df.to_csv("solucion.csv")
+          
           #createCSV(nombre_archivo,archivo_final)
         
       else:
